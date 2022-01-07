@@ -1,0 +1,30 @@
+{
+  "name": "battleship",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsbrownn/battleship.git"
+  },
+  "keywords": [],
+  "author": "Sergei Boreiko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jsbrownn/battleship/issues"
+  },
+  "homepage": "https://github.com/jsbrownn/battleship#readme",
+  "devDependencies": {
+    "@babel/core": "^7.16.7",
+    "@babel/preset-env": "^7.16.7",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "hot-module-replacement": "^3.0.4",
+    "html-webpack-plugin": "^5.5.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.2"
+  }
+}
