@@ -1,0 +1,43 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  box-sizing: border-box;
+}
+#root{
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1500px;
+  border: 1px solid red;
+  height: 100vh;
+  
+}
+
+
+.ships-choose{
+  border: 1px solid green;
+  width: 20vw;
+
+}
+
+.battle-field {
+  flex: 1;
+  border-collapse: collapse;
+  
+}
+
+.battle-field td{
+
+  width: 50px;
+  height: 50px;
+  border: 1px solid lightslategrey;
+  text-align: center;
+}
