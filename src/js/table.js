@@ -1,5 +1,11 @@
 const tableProp = {
   cell : 10,
-  shipsCount
+  firstLetter : "A",
+  ships : {
+    deck1 : 4,
+    deck2 : 3,
+    deck3 : 2,
+    deck4 : 1
+  }
 
 }

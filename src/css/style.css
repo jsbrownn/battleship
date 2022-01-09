@@ -61,9 +61,9 @@ ul {
 }
 
 .battle-field td{
-  width: 54px;
-  height: 54px;
-  border: 3px solid rgba(26, 5, 99, 0.5);
+  width: 54.2px;
+  height: 53.4px;
+  border: 3px solid rgba(26, 5, 99, 0.15);
   text-align: center;
   font-size: 30px;
 }
@@ -79,8 +79,8 @@ ul {
 .ships__item{
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
+ 
 }
 .ship-count{
   font-size: 30px;
@@ -88,24 +88,31 @@ ul {
 
 
 .ship {
-  height: 20px;
-  background-color: red;
-  
-  
+  height: 50px;
+
+}
+.allow {
+  background-color: rgba(0, 128, 0, 0.2);
 }
 
 
 .ship--4deck{
-  width:80px;
+  width:200px;
 }
 .ship--3deck{
-  width:60px;
+  width:150px;
 }
 .ship--2deck{
-  width:40px;
+  width:100px;
 }
 .ship--1deck{
-  width:20px;
+  width:50px;
+}
+.ship-image{
+  height: 100%;
+  width: 100%;
+  
+
 }
 
 .hidden {
