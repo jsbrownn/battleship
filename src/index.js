@@ -1,23 +1,19 @@
-
+import { appHelper } from "./js/helpers/helper.js";
 import './css/style.css'
-import './assets/images/ships/1.png'
-import './assets/images/ships/2.png'
-import './assets/images/ships/3.png'
-import './assets/images/ships/4.png'
-import { appHelper } from './js/helpers/helper';
+
+let cells = 10;
+let letter = 'A';
+let allowDrop = true;
+const boats = {};
+let isVertical = false;
 
 
 
-
-
-
-function generateTable(count) {
+function generateTable(count, letter) {
   const table = document.querySelector('.battle-field')
-  let letter = 'A';
 
   function generateRow(i) {
     const tr = document.createElement('tr')
-
     for (let j = 0; j <= count; j++) {
       const td = document.createElement('td')
       if (i !== 0) {
@@ -43,113 +39,161 @@ function generateTable(count) {
   for (let i = 0; i <= count; i++) {
     generateRow(i)
   }
-
 }
 
 
+function setShipPlace(id, current) {
+  let r = /\d+/;
+  const deckCount = +current.match(r)[0];
+  const targetId = id;
+  const boatsCordinates = []
+  if (deckCount === 1) {
+    boatsCordinates.push(targetId)
+  } else {
+    boatsCordinates.push(targetId)
+    boats[current] = setShipCells(targetId)
+  }
 
+  function setShipCells(id) {
+    if (boatsCordinates.length === deckCount) {
 
-function arrangeShips() {
+      return boatsCordinates;
+    } else {
 
-  function checkCells(){
-    console.log(event)
-    const target = event.target
-    const area = findArea(target.id,event)
-    area.forEach(cell =>{
+      let cordX = id.split(':')[0]
+      let cordY = +id.split(':')[1]
 
-      let elem = document.getElementById(`${cell}`)
-      if (elem){
-        elem.classList.add('allow')
+      if (!isVertical) {
+        cordY += 1
+      } else {
+        cordX = appHelper.nextLetterInAlphabet(cordX)
       }
+      const cellId = cordX + ":" + cordY
+      boatsCordinates.push(cellId)
 
+      return setShipCells(cellId)
+    }
+  }
+
+  return boatsCordinates;
+}
+
+function shipArrangement() {
+
+  let currentShipDrag;
+  let currentTd;
+
+  //флаг, разрешающи запуск событий перетаскивания
+  if (allowDrop) {
+    const ships = document.querySelectorAll('.ship')
+    const table = document.querySelector('.battle-field')
+
+    ships.forEach(ship => {
+      ship.setAttribute('draggable', true)
+      ship.ondrag = drag;
+      ship.ondragstart = dragStart;
+      // ship.ondragend = dragEnd;
+      // ship.ondrop = drop
+    })
+
+    table.ondragenter = tableDragEnter;
+    table.ondrop = drop;
+    table.ondragover = tableDragOver;
+    table.ondragleave = tableDragLeave;
+  }
+
+  function drag(event) {
+    console.log('drag')
+    if(currentTd){
+      const area = getActiveArea(currentTd)
+      console.log(area)
+      area.forEach(row =>{
+        row.forEach(id =>{
+          const cell = document.getElementById(id)
+          if(cell){
+            cell.classList.add('allow')
+          }
+        })
+      })
+    }
+  }
+
+  function dragStart(event) {
+    console.log('dragstart')
+    const dragBlockSelector = event.target.parentElement.classList[1]
+    currentShipDrag = dragBlockSelector
+  }
+
+
+  function tableDragEnter(event) {
+    console.log('tableDragEnter')
+    if(event.target.tagName === 'TD'){
+      currentTd = event.target
+    } else {
+      currentTd =''
+    }
+  }
+
+  function tableDragLeave(event) {
+    console.log('table drag leave')
+    const areaIds = getActiveArea(event.target) 
+    areaIds.forEach(row => {
+      row.forEach(id => {
+        const item = document.getElementById(id)
+        if (item) {
+          item.classList.remove('allow')
+        }
+      })
     })
   }
 
-  function allowDrop(event) {
+  
+
+  function tableDragOver(event) {
     event.preventDefault()
-    if(event.target.classList.contains('droppable')){
-      checkCells()
+  }
+
+
+  function drop(event) {
+    console.log('drop')
+    const place = event.target
+    place.classList.add('active')
+    place.classList.remove('allow')
+  }
+
+  function getActiveArea(cell) {
+    const area = [];
+    const [coordX, coordY] = cell.id.split(':')
+    const firstColumnId = appHelper.previousLetterInAlphabet(coordX) + ":" + coordY;
+    const lastColumnId = appHelper.nextLetterInAlphabet(coordX) + ":" + coordY
+
+    const colummIds = [
+      firstColumnId,
+      cell.id,
+      lastColumnId
+    ];
+
+
+    function getSublings(id) {
+      const [coordX, coordY] = id.split(':')
+      const previousSublingId = coordX + ':' + (+coordY - 1)
+      const nextSublingId = coordX + ':' + (+coordY + 1)
+      const row = [previousSublingId, id, nextSublingId]
+      return row;
     }
     
-  }
-
-  function dragLeave(event) {
-    const target = event.target
-    const area = findArea(target.id)
-    area.forEach(cell =>{
-      let elem = document.getElementById(`${cell}`)
-      // debugger
-      if (elem){
-        elem.classList.remove('allow')
-      }
-
+    colummIds.forEach(id => {
+      const row = getSublings(id)
+      area.push(row)
     })
-  }
-
-  function findArea(id){
-    const targetId = id;
-    const targetX = targetId.split(":")[0]
-    const targetY = targetId.split(":")[1]
-    const area = []
-    const firstElemX = targetX 
-    const firstElemY = targetY
-    const num  = 3;
-    for ( let i = 0; i < num ; i++){
-      let targetId = []
-      targetId.push(firstElemX)
-      targetId.push(+firstElemY + i - 1)
-      targetId = targetId.join(':')
-      area.push(targetId)     
-    } 
-    
-    console.log( area )
     return area;
 
   }
 
-  function drag(event) {
-    event.dataTransfer.setData('selector', event.target.classList[1])
-  }
-
-  function drop(event) {
-    console.warn(event)
-    const cell = event.target
-    cell.style.background = "red"
-  }
-
-  const ships = document.querySelectorAll('.ship')
-  ships.forEach(ship => {
-    ship.setAttribute('draggable', true)
-    ship.ondragover = allowDrop;
-    ship.ondragleave = dragLeave;
-    ship.ondragstart = drag;
-  })
-
-
-  const table = document.querySelector('.battle-field')
-  table.ondragover = allowDrop;
-  table.ondrop = drop;
-  table.ondragleave = dragLeave;
-
-
 }
 
 
-function addShips() {
-  const shipblocks = Array.from(document.querySelectorAll('.ship') )
-  console.log(shipblocks)
-  const ship = document.querySelector('.ship')
-  const img = new Image()
-  img.src = '/src/assets/images/ships/4.png'
-  // ship.append(img)
-}
-
-
-
-generateTable(10)
-addShips()
-arrangeShips();
-
-
+generateTable(cells, letter)
+shipArrangement()
 
 

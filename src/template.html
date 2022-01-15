@@ -5,49 +5,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= htmlWebpackPlugin.options.title %></title>
-
   </head>
 
   <body>
-      <div class="container">
-        <div id="root">
-          
-            <div class="field">
-              <h1 class="game-title">Расстaновка кораблей</h1>
-              <table class="battle-field">
-              </table>
-            </div>
-            <div class="ships-choose">
-              <h2 class="ships-title">Корабли:</h2>
-                <ul class="ships-list">
-                  <li class="ships__item">
-                    <div class="ship ship--4deck">
-                      <img src="./assets/images/ships/4.png" alt="" class="ship-image">
-                    </div>
-                    <div class="ship-count">x1</div>
-                  </li>
-                  <li class="ships__item">
-                    <div class="ship ship--3deck" >
-                      <img src="./assets/images/ships/3.png" alt="" class="ship-image">
-                    </div>
-                    <div class="ship-count">x2</div>
-                  </li>
-                  <li class="ships__item">
-                    <div class="ship ship--2deck" >
-                      <img src="./assets/images/ships/2.png" alt="" class="ship-image">
-                    </div>
-                    <div class="ship-count">x3</div>
-                  </li>
-                  <li class="ships__item">
-                    <div class="ship ship--1deck">
-                    <img src="./assets/images/ships/1.png" alt="" class="ship-image">
-                    </div>
-                    <div class="ship-count">x4</div>
-                  </li>
-                </ul>
-            </div>
+    <div class="container">
+      <div id="root">
+        <div class="ship-placement">
+          <div class="field">
+            <h1 class="game-title">Расстaновка кораблей</h1>
+            <table class="battle-field"></table>
+          </div>
+          <div class="ships-choose">
+            <h2 class="ships-title">Корабли:</h2>
+            <ul class="ships-list">
+              <li class="ships__item">
+                <div class="ship ship--4deck">
+                  <img src="./assets/images/ships/4.png" alt="" class="ship-image" />
+                </div>
+                <div class="ship-count">x1</div>
+              </li>
+              <li class="ships__item">
+                <div class="ship ship--3deck">
+                  <img src="./assets/images/ships/3.png" alt="" class="ship-image" />
+                </div>
+                <div class="ship-count">x2</div>
+              </li>
+              <li class="ships__item">
+                <div class="ship ship--2deck">
+                  <img src="./assets/images/ships/2.png" alt="" class="ship-image" />
+                </div>
+                <div class="ship-count">x3</div>
+              </li>
+              <li class="ships__item">
+                <div class="ship ship--1deck">
+                  <img src="./assets/images/ships/1.png" alt="" class="ship-image" />
+                </div>
+                <div class="ship-count">x4</div>
+              </li>
+            </ul>
+            <button class="rotate-btn hidden">повернуть</button>
+          </div>
         </div>
-      </div> 
+      </div>
     </div>
   </body>
 </html>
