@@ -93,14 +93,20 @@ ul {
   height: 50px;
 
 }
-.allow {
-background-color: rgba(116, 219, 150, 0.26);
-}
+
+
+.area {
+  background-color: rgba(116, 219, 150, 0.2);
+  }
 .active{
-  background-color: crimson;
+  background-color: rgba(116, 219, 150, 0.5);
 }
-
-
+.blocked{
+  background-color: rgba(219, 116, 116, 0.3);
+}
+.ship-place{
+  background-color: rgba(219, 116, 116, 0.8);
+}
 .ship--4deck{
   width:200px;
 }

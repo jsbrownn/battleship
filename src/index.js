@@ -6,6 +6,7 @@ let letter = 'A';
 let allowDrop = true;
 const boats = {};
 let isVertical = false;
+let area;
 
 
 
@@ -82,6 +83,7 @@ function shipArrangement() {
 
   let currentShipDrag;
   let currentTd;
+  let currentCoordinates;
 
   //флаг, разрешающи запуск событий перетаскивания
   if (allowDrop) {
@@ -103,19 +105,28 @@ function shipArrangement() {
   }
 
   function drag(event) {
-    console.log('drag')
-    if(currentTd){
-      const area = getActiveArea(currentTd)
-      console.log(area)
-      area.forEach(row =>{
-        row.forEach(id =>{
-          const cell = document.getElementById(id)
-          if(cell){
-            cell.classList.add('allow')
-          }
-        })
+
+    if (currentCoordinates) {
+      currentCoordinates.forEach(id => {
+        const cell = document.getElementById(id)
+        if (cell) {
+
+          const area = getActiveArea(cell)
+
+          event.dataTransfer.setData('area', area)
+          area.forEach(row => {
+            row.forEach(id => {
+              const cell = document.getElementById(id)
+              if (cell) {
+                cell.classList.add('area')
+              }
+            })
+          })
+          cell.classList.add('active')
+        }
       })
     }
+
   }
 
   function dragStart(event) {
@@ -127,27 +138,46 @@ function shipArrangement() {
 
   function tableDragEnter(event) {
     console.log('tableDragEnter')
-    if(event.target.tagName === 'TD'){
-      currentTd = event.target
+    if (event.target.tagName === 'TD') {
+      currentTd = event.target//запись в переменную текущей ячейки,для доступа в других обработчиках
+      currentCoordinates = setShipPlace(currentTd.id, currentShipDrag)
     } else {
-      currentTd =''
+      currentTd = ''
     }
+
+
   }
 
   function tableDragLeave(event) {
-    console.log('table drag leave')
-    const areaIds = getActiveArea(event.target) 
-    areaIds.forEach(row => {
-      row.forEach(id => {
-        const item = document.getElementById(id)
-        if (item) {
-          item.classList.remove('allow')
-        }
+
+    const leaveCoordinates = setShipPlace(event.target.id, currentShipDrag)
+
+    if (leaveCoordinates) {
+
+      leaveCoordinates.forEach(id => {
+        const cell = document.getElementById(id)
+        const areaIds = getActiveArea(cell)
+        areaIds.forEach(row => {
+
+          row.forEach(id => {
+            let item = document.getElementById(id)
+            if (item) {
+              item.classList.remove('area')
+              item.classList.remove('active')
+            }
+
+          }
+          )
+        })
       })
-    })
+
+    }
+
+
   }
 
-  
+
+
 
   function tableDragOver(event) {
     event.preventDefault()
@@ -155,10 +185,57 @@ function shipArrangement() {
 
 
   function drop(event) {
-    console.log('drop')
-    const place = event.target
-    place.classList.add('active')
-    place.classList.remove('allow')
+
+    const area = document.querySelectorAll('.area')
+    const ship = document.querySelectorAll('.active')
+
+    function checkArea() {
+      const areaArr = Array.from(area)
+      let result = [];
+      //логичнее было бы использовать filter,промучался несколько часов - так и не разобрался почему не заработало
+      areaArr.forEach(elem => {
+        if (elem.classList.contains('ship-place')) {
+          result.push(elem)
+        }
+      })
+      if (result.length === 0 && ship.length === currentCoordinates.length ) {
+        return true;
+      } else {
+        return false;
+      }
+
+    }
+
+
+
+    function clearArea() {
+      area.forEach(cell => {
+        cell.classList.remove('area')
+      })
+      ship.forEach(cell => {
+        cell.classList.remove('active')
+      })
+    }
+
+    let isAllow = checkArea();
+    if (!isAllow) {
+      console.log(isAllow)
+      clearArea()
+      currentCoordinates = ''
+      currentShipDrag = ''
+
+      return false;
+    } else {
+      area.forEach(cell => {
+        cell.classList.remove('area')
+      })
+      ship.forEach(cell => {
+        cell.classList.replace('active', 'ship-place')
+      })
+      currentCoordinates = ''
+      currentShipDrag = ''
+    }
+
   }
 
   function getActiveArea(cell) {
@@ -181,7 +258,7 @@ function shipArrangement() {
       const row = [previousSublingId, id, nextSublingId]
       return row;
     }
-    
+
     colummIds.forEach(id => {
       const row = getSublings(id)
       area.push(row)
