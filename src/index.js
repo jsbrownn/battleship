@@ -250,7 +250,22 @@ function shipArrangement() {
 
       })
       refreshShipCount()
-      boats[currentShipDrag] = currentCoordinates;
+      
+      function setBoat(){
+        if(boats[currentShipDrag]){
+          
+          let keys = Object.keys(boats[currentShipDrag])
+          let num = keys.length + 1
+          boats[currentShipDrag][num] = currentCoordinates
+         
+        }else {
+          boats[currentShipDrag] = { 1: currentCoordinates};
+        }
+      }
+      setBoat()
+      console.log(boats)
+    
+      
 
       function getShipCount(currentShip) {
         const ship = document.getElementsByClassName(currentShip)[0]
@@ -346,6 +361,8 @@ table.addEventListener('click', rotateShip)
 
 function rotateShip(event) {
   if (event.target.classList.contains('ship-place')) {
+    const rotateBtn = document.querySelector('.rotate-btn')
+    rotateBtn.classList.toggle('hidden')
     findCell(event.target)
   }
 
