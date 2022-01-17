@@ -94,7 +94,7 @@ ul {
 
 }
 
-
+/* важно сохранить порядок классов, чтобы не нарушить селективность */
 .area {
   background-color: rgba(116, 219, 150, 0.2);
   }
@@ -103,6 +103,9 @@ ul {
 }
 .blocked{
   background-color: rgba(219, 116, 116, 0.3);
+}
+.blocked-ship{
+  background-color: rgba(219, 116, 116, 0.5);
 }
 .ship-place{
   background-color: rgba(219, 116, 116, 0.8);
