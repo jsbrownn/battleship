@@ -1,0 +1,19 @@
+
+.start-page{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.type-btn {
+  min-height: 100px;
+  min-width: 450px;
+  margin-bottom: 100px;
+  background-color: transparent;
+  font-size: 30px;
+  border-radius: 2%;
+  color: rgba(26, 5, 99, 0.795);
+  font-family: unset;
+}

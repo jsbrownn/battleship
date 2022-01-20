@@ -1,0 +1,6 @@
+function startPageView() {
+
+
+}
+
+export { startPageView }

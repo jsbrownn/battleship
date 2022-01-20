@@ -1,0 +1,84 @@
+.ship-placement {
+  display: flex;
+  height: 100%;
+}
+
+.field {
+  flex: 1;
+}
+
+.game-title {
+  text-align: center;
+}
+
+.ships-choose {
+  border-left: 3px solid #ff000096;
+  max-width: 20vw;
+  min-width: 10vw;
+  padding: 0 1em;
+}
+
+.battle-field {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.battle-field td {
+  width: 54.2px;
+  height: 53.4px;
+  border: 3px solid rgba(26, 5, 99, 0.15);
+  text-align: center;
+  font-size: 30px;
+}
+
+.battle-field td:first-child {
+  border: none;
+}
+.battle-field tr:first-child td {
+  border: none;
+}
+.ships__item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.ship-count {
+  font-size: 30px;
+}
+
+.ship {
+  height: 50px;
+}
+
+/* важно сохранить порядок классов, чтобы не нарушить селективность */
+.area {
+  background-color: rgba(116, 219, 150, 0.2);
+}
+.active {
+  background-color: rgba(116, 219, 150, 0.5);
+}
+.blocked {
+  background-color: rgba(219, 116, 116, 0.3);
+}
+.blocked-ship {
+  background-color: rgba(219, 116, 116, 0.5);
+}
+.ship-place {
+  background-color: rgba(219, 116, 116, 0.8);
+}
+.ship--4deck {
+  width: 200px;
+}
+.ship--3deck {
+  width: 150px;
+}
+.ship--2deck {
+  width: 100px;
+}
+.ship--1deck {
+  width: 50px;
+}
+.ship-image {
+  height: 100%;
+  width: 100%;
+}

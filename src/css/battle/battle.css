@@ -1,0 +1,24 @@
+.battle__title{
+  text-align: center;
+}
+
+.battle__tables{
+  display: flex;
+}
+
+.battle-field td {
+  width: 2rem;
+  height: 2rem;
+}
+
+.miss::after{
+  content: "o";
+  color: black;
+  font-size: 3 rem;
+}
+
+.hit::after {
+  content:"X";
+  color: red;
+
+}

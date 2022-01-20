@@ -1,0 +1,4 @@
+const battleController = ()=>{
+
+}
+export {battleController};

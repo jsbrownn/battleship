@@ -1,0 +1,17 @@
+const battleView = () => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+export {battleView}
