@@ -61,7 +61,7 @@ class arrangementView{
   }
 
   //получить все ближайшие ячейки 
-  getActiveArea(cell) {
+  getArea(cell) {
     const area = [];
     const [coordX, coordY] = cell.id.split(':')
     const firstColumnId = appHelper.previousLetterInAlphabet(coordX) + ":" + coordY;

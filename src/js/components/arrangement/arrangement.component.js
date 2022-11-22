@@ -1,4 +1,6 @@
-import { arrangementController } from "../../controllers/arrangement/arrangement.controller";
+// import { arrangementController } from "../../controllers/arrangement/arrangement.controller";
+
+import { arrangementController } from "../../temp/arrangement.controller";
 import { Component } from "../component";
 import '/src/assets/images/ships/4.png'
 
@@ -39,7 +41,12 @@ const arrangement = new Component(
         <div class="ship-count">x0</div>
       </li>
     </ul>
-    <button class="rotate-btn hidden">повернуть</button>
+    <div class = "buttons-block">
+      <button class="random-btn btn">random</button>
+      <button class="clear-btn btn">cбросить</button>
+      <button class="rotate-btn hidden btn">повернуть</button>
+    </div>
+    
   </div>
 </div>
 

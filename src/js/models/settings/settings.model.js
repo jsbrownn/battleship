@@ -1,4 +1,4 @@
-const settingsModel = {
+const settings = {
 
   cellsCount: 10,
   startLetter:'А',
@@ -15,4 +15,4 @@ const settingsModel = {
 
 
 
-export { settingsModel };
+export { settings };

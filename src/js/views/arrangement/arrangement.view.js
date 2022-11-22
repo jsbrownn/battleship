@@ -4,10 +4,14 @@ import '/src/css/arrangement/arrangement.css'
 import '/src/assets/images/ships/1.png'
 import { gameModel } from '../../models/game/game.model'
 
-const boats = gameModel.boats
+let boats = gameModel.boats
 
 
-
+let isBlocked = false
+  let isActiveShip = false;
+  let whichShip;
+  let shipCoordinates; 
+  let isGap = false;
 
 
 function arrangementView() {
@@ -17,10 +21,7 @@ function arrangementView() {
   let defaultShipCount = settingsModel.defaultShipCount
   const shipImages = document.querySelectorAll('.ship-image')
   const path = '/src/assets/images/ships/'
-  let isBlocked = false
-  let isActiveShip = false;
-  let shipCoordinates;  //временная переменная для хранения координат корабля
-  let isGap = false;
+  
 
   function setImageSrc(images, path) {
     images.forEach(image => {
@@ -73,9 +74,8 @@ function arrangementView() {
 
   generateTable(count, letter)
 
-  function getActiveArea(cell) {
+  function getArea(cell) {
     const area = [];
-    console.log(cell)
     const [coordX, coordY] = cell.id.split(':')
 
     const firstColumnId = appHelper.previousLetterInAlphabet(coordX) + ":" + coordY;
@@ -116,26 +116,31 @@ function arrangementView() {
 
   }
   //////////есть в контроллере///////////
-  function setBlockedCells(coordinates) {
+  function checkArea(coordinates) {
     if (coordinates) {
       coordinates.forEach(id => {
         const cell = document.getElementById(id)
         if (cell) {
-          const area = getActiveArea(cell)
+          const area = getArea(cell)
           area.forEach(row => {
             row.forEach(id => {
               const cell = document.getElementById(id)
               if (cell) {
                 if (cell.classList.contains('ship-place')) {
                   isBlocked = true;
+                }else {
+                  cell.classList.add('area')
                 }
-                cell.classList.add('area')
               }
             })
           })
           cell.classList.add('active')
         }
+        
+        isBlocked = false
         isGap = false
+
+
       })
 
       const active = document.querySelectorAll('.active')
@@ -222,7 +227,6 @@ function arrangementView() {
   function changeActiveShip(event) {
 
     function setActiveShip() {
-
       if (event.target.classList.contains('ship-place')) {
         isActiveShip = true
         initHandlers()
@@ -238,7 +242,7 @@ function arrangementView() {
           cell.classList.add('active')
         })
         
-        setBlockedCells(activeShipCoordinates)
+        checkArea(activeShipCoordinates)
       }
 
 
@@ -263,7 +267,7 @@ function arrangementView() {
     function clearPreviousPlace(coord) {
       coord.forEach(id => {
         const cell = document.getElementById(id)
-        let area = getActiveArea(cell)
+        let area = getArea(cell)
         area.forEach(row => {
           row.forEach(item => {
             const elem = document.getElementById(item)
@@ -307,7 +311,7 @@ function arrangementView() {
       }
    
       clearPreviousPlace(shipCoordinates)
-      setBlockedCells(newCoordinates)
+      checkArea(newCoordinates)
       shipCoordinates = newCoordinates
     }
 
@@ -387,17 +391,28 @@ function arrangementView() {
         if (event.code === 'Space') {
 
           rotate()
-          // setActiveShip()
+          
         }
 
         if (event.code === 'Enter') {
+          unActiveShip(shipCoordinates)
+        }
 
-         
+
+
+
+
+        function unActiveShip(coordinates){ 
+          if(!isBlocked){
+            debugger
+          }
+          
+
         }
         
         function clearAfterMove(newCoordinates) {
           clearPreviousPlace(coordinates)
-          setBlockedCells(newCoordinates)
+          checkArea(newCoordinates)
           shipCoordinates = newCoordinates
         }
 
@@ -432,7 +447,44 @@ function arrangementView() {
   }
 
 
+
+
+  ///reset
+
+  function resetArrangement(){
+    const cells = document.querySelectorAll('td')
+    cells.forEach(cell =>{
+      cell.className = '';
+      cell.classList.add('droppable')
+    })
+    boats = {} //аннулирую все координаты кораблей
+    
+    const shipItems = document.querySelectorAll('.ships__item')
+    shipItems.forEach( item =>{
+        item.style.display = ""
+        item.children[0].setAttribute('draggable','true')
+        
+    })
+    
+    setShipCount()//возвращаю количество кораблей для установки
+    isActive = false;
+    isBlocked  = false;
+    shipCoordinates = undefined;
+    debugger
+    
+
+  }
+
+  const clearBtn = document.querySelector('.clear-btn')
+  clearBtn.addEventListener('click',resetArrangement)
+
+
+
+  
+
+
   setShipCount()
+
 
 }
 

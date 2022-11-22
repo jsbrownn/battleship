@@ -14,6 +14,7 @@ function arrangementController() {
 
   function setShipPlace(id, current) {
     let r = /\d+/;
+    console.log(r)
     const deckCount = +current.match(r)[0];
     const targetId = id;
     const boatsCordinates = []
@@ -74,50 +75,50 @@ function arrangementController() {
     }
     let isBlocked;
 
-    function setBlockedCells(coordinates){
-      if (coordinates) {
-        coordinates.forEach(id => {
-          const cell = document.getElementById(id)
-          if (cell) {
-            const area = getActiveArea(cell)
+    // function checkArea(coordinates){
+    //   if (coordinates) {
+    //     coordinates.forEach(id => {
+    //       const cell = document.getElementById(id)
+    //       if (cell) {
+    //         const area = getArea(cell)
 
-            area.forEach(row => {
-              row.forEach(id => {
-                const cell = document.getElementById(id)
-                if (cell) {
-                  if (cell.classList.contains('ship-place')) {
-                    isBlocked = true;
-                  }
-                  cell.classList.add('area')
-                }
-              })
-            })
-            cell.classList.add('active')
-          }
+    //         area.forEach(row => {
+    //           row.forEach(id => {
+    //             const cell = document.getElementById(id)
+    //             if (cell) {
+    //               if (cell.classList.contains('ship-place')) {
+    //                 isBlocked = true;
+    //               }
+    //               cell.classList.add('area')
+    //             }
+    //           })
+    //         })
+    //         cell.classList.add('active')
+    //       }
 
-        })
+    //     })
 
-        const active = document.querySelectorAll('.active')
-        if (active.length !== currentCoordinates.length) {
-          isBlocked = true;
-        }
+    //     const active = document.querySelectorAll('.active')
+    //     if (active.length !== currentCoordinates.length) {
+    //       isBlocked = true;
+    //     }
 
-        if (isBlocked) {
-          const area = document.querySelectorAll('.area')
-          area.forEach(item => {
-            if (item.classList.contains('active')) {
-              item.classList.add('blocked-ship')
-            }
-            item.classList.add('blocked')
-          })
-        }
-      }
-      isBlocked = false
-    }
+    //     if (isBlocked) {
+    //       const area = document.querySelectorAll('.area')
+    //       area.forEach(item => {
+    //         if (item.classList.contains('active')) {
+    //           item.classList.add('blocked-ship')
+    //         }
+    //         item.classList.add('blocked')
+    //       })
+    //     }
+    //   }
+    //   isBlocked = false
+    // }
 
     function drag(event) {
 
-      setBlockedCells(currentCoordinates);
+      checkArea(currentCoordinates);
    
     }
 
@@ -143,13 +144,12 @@ function arrangementController() {
     }
 
     function tableDragLeave(event) {
-
       const leaveCoordinates = setShipPlace(event.target.id, currentShipDrag)
       if (leaveCoordinates) {
         leaveCoordinates.forEach(id => {
           const cell = document.getElementById(id)
           if(cell){
-            const areaIds = getActiveArea(cell)
+            const areaIds = getArea(cell)
             areaIds.forEach(row => {
               row.forEach(id => {
                 let item = document.getElementById(id)
@@ -232,6 +232,7 @@ function arrangementController() {
         refreshShipCount()
 
         function setBoat() {
+          debugger
           if (boats[currentShipDrag]) {
 
             let keys = Object.keys(boats[currentShipDrag])
@@ -329,14 +330,11 @@ function arrangementController() {
   }
 
 
-  function getActiveArea(cell) {
+  function getArea(cell) {
     const area = [];
-  
     const [coordX, coordY] = cell.id.split(':')
-  
     const firstColumnId = appHelper.previousLetterInAlphabet(coordX) + ":" + coordY;
     const lastColumnId = appHelper.nextLetterInAlphabet(coordX) + ":" + coordY
-  
     const colummIds = [
       firstColumnId,
       cell.id,
